@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+ADMIN PAYMENT MASERWIN
+</title>
+
+<style>
+
+* {
+    box-sizing:
+    border-box;
+}
+
+body {
+
+    margin:
+    0;
+
+    min-height:
+    100vh;
+
+    color:
+    white;
+
+    font-family:
+    Arial,
+    sans-serif;
+
+    background:
+    #050914;
+}
+
+.login,
+
+.dashboard {
+
+    width:
+    min(
+    900px,
+    calc(
+    100% - 30px
+    )
+    );
+
+    margin:
+    50px auto;
+}
+
+.login {
+
+    max-width:
+    430px;
+
+    padding:
+    25px;
+
+    border:
+    1px solid
+    #ffffff18;
+
+    border-radius:
+    24px;
+
+    background:
+    #0a1528;
+}
+
+h1 {
+
+    margin-top:
+    0;
+}
+
+input {
+
+    width:
+    100%;
+
+    padding:
+    14px;
+
+    margin:
+    8px 0;
+
+    border:
+    1px solid
+    #ffffff18;
+
+    border-radius:
+    12px;
+
+    color:
+    white;
+
+    background:
+    #ffffff09;
+}
+
+button {
+
+    padding:
+    13px;
+
+    border:
+    0;
+
+    border-radius:
+    12px;
+
+    color:
+    white;
+
+    cursor:
+    pointer;
+
+    background:
+    #167fff;
+}
+
+.login button {
+
+    width:
+    100%;
+
+    margin-top:
+    8px;
+}
+
+.dashboard {
+
+    display:
+    none;
+}
+
+.top {
+
+    display:
+    flex;
+
+    justify-content:
+    space-between;
+
+    align-items:
+    center;
+
+    margin-bottom:
+    20px;
+}
+
+.stats {
+
+    display:
+    grid;
+
+    grid-template-columns:
+    repeat(
+    3,
+    1fr
+    );
+
+    gap:
+    12px;
+
+    margin-bottom:
+    20px;
+}
+
+.stat {
+
+    padding:
+    18px;
+
+    border:
+    1px solid
+    #ffffff18;
+
+    border-radius:
+    18px;
+
+    background:
+    #ffffff08;
+}
+
+.stat b {
+
+    display:
+    block;
+
+    margin-top:
+    8px;
+
+    font-size:
+    25px;
+}
+
+.report {
+
+    margin:
+    12px 0;
+
+    padding:
+    18px;
+
+    border:
+    1px solid
+    #ffffff18;
+
+    border-radius:
+    18px;
+
+    background:
+    #ffffff08;
+}
+
+.report small {
+
+    color:
+    #8f9cb0;
+}
+
+.report p {
+
+    color:
+    #bac4d2;
+
+    line-height:
+    1.6;
+}
+
+.done {
+
+    background:
+    #159a65;
+}
+
+.delete {
+
+    margin-left:
+    7px;
+
+    background:
+    #d63f4d;
+}
+
+.empty {
+
+    padding:
+    35px;
+
+    text-align:
+    center;
+
+    color:
+    #8996aa;
+}
+
+@media(
+max-width:600px
+) {
+
+.stats {
+
+    grid-template-columns:
+    1fr;
+}
+
+.top {
+
+    align-items:
+    flex-start;
+
+    gap:
+    12px;
+
+    flex-direction:
+    column;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<section
+class="login"
+id="loginPage">
+
+<h1>
+
+⚙️ ADMIN PANEL
+
+</h1>
+
+<p>
+
+Login untuk melihat laporan pengguna.
+
+</p>
+
+
+<input
+id="username"
+placeholder="Username admin">
+
+
+<input
+id="password"
+type="password"
+placeholder="Password admin">
+
+
+<button
+onclick="login()">
+
+LOGIN ADMIN
+
+</button>
+
+</section>
+
+
+<section
+class="dashboard"
+id="dashboard">
+
+
+<div class="top">
+
+<div>
+
+<h1>
+
+📥 LAPORAN MASUK
+
+</h1>
+
+<small>
+
+PAYMENT MASERWIN
+
+</small>
+
+</div>
+
+
+<button
+onclick="logout()">
+
+LOGOUT
+
+</button>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+
+Total
+
+<b
+id="total">
+
+0
+
+</b>
+
+</div>
+
+
+<div class="stat">
+
+Bug
+
+<b
+id="bugs">
+
+0
+
+</b>
+
+</div>
+
+
+<div class="stat">
+
+Request Fitur
+
+<b
+id="features">
+
+0
+
+</b>
+
+</div>
+
+</div>
+
+
+<div
+id="reportList">
+
+</div>
+
+</section>
+
+
+<script>
+
+let token =
+
+localStorage.getItem(
+
+"maserwin_admin_token"
+
+);
+
+
+if (token) {
+
+openDashboard();
+
+}
+
+
+async function login() {
+
+const username =
+
+document
+.getElementById(
+"username"
+)
+.value;
+
+
+const password =
+
+document
+.getElementById(
+"password"
+)
+.value;
+
+
+const response =
+
+await fetch(
+
+"/api/admin/login",
+
+{
+
+method:
+"POST",
+
+headers:
+
+{
+
+"Content-Type":
+"application/json"
+
+},
+
+body:
+
+JSON.stringify(
+
+{
+
+username,
+
+password
+
+}
+
+)
+
+}
+
+);
+
+
+const result =
+
+await response
+.json();
+
+
+if (
+
+!result.success
+
+) {
+
+alert(
+
+result.message
+
+);
+
+return;
+
+}
+
+
+token =
+result.token;
+
+
+localStorage
+.setItem(
+
+"maserwin_admin_token",
+
+token
+
+);
+
+
+openDashboard();
+
+}
+
+
+function openDashboard() {
+
+document
+.getElementById(
+"loginPage"
+)
+.style.display =
+"none";
+
+
+document
+.getElementById(
+"dashboard"
+)
+.style.display =
+"block";
+
+
+loadReports();
+
+}
+
+
+async function loadReports() {
+
+const response =
+
+await fetch(
+
+"/api/admin/reports",
+
+{
+
+headers:
+
+{
+
+Authorization:
+
+"Bearer " +
+
+token
+
+}
+
+}
+
+);
+
+
+if (
+
+response.status === 401
+
+) {
+
+logout();
+
+return;
+
+}
+
+
+const result =
+
+await response
+.json();
+
+
+const reports =
+result.reports;
+
+
+document
+.getElementById(
+"total"
+)
+.textContent =
+reports.length;
+
+
+document
+.getElementById(
+"bugs"
+)
+.textContent =
+
+reports.filter(
+
+item =>
+
+item.type ===
+"bug"
+
+).length;
+
+
+document
+.getElementById(
+"features"
+)
+.textContent =
+
+reports.filter(
+
+item =>
+
+item.type ===
+"feature"
+
+).length;
+
+
+const list =
+
+document
+.getElementById(
+"reportList"
+);
+
+
+if (
+
+reports.length === 0
+
+) {
+
+list.innerHTML =
+
+'<div class="empty">Belum ada laporan</div>';
+
+return;
+
+}
+
+
+list.innerHTML =
+
+reports.map(
+
+report => `
+
+<div class="report">
+
+<h3>
+
+${
+
+report.type === "bug"
+
+?
+
+"🐛 BUG"
+
+:
+
+"💡 REQUEST FITUR"
+
+}
+
+#${report.number}
+
+</h3>
+
+
+<small>
+
+${
+
+new Date(
+
+report.createdAt
+
+).toLocaleString(
+
+"id-ID"
+
+)
+
+}
+
+•
+
+${
+
+report.status === "done"
+
+?
+
+"SELESAI"
+
+:
+
+"BELUM SELESAI"
+
+}
+
+</small>
+
+
+<h4>
+
+${escapeHtml(
+report.title
+)}
+
+</h4>
+
+
+<p>
+
+${escapeHtml(
+report.description
+)}
+
+</p>
+
+
+<button
+class="done"
+onclick="changeStatus(
+'${report.id}',
+'${
+
+report.status === "done"
+
+?
+
+"open"
+
+:
+
+"done"
+
+}'
+)">
+
+${
+
+report.status === "done"
+
+?
+
+"BUKA LAGI"
+
+:
+
+"TANDAI SELESAI"
+
+}
+
+</button>
+
+
+<button
+class="delete"
+onclick="deleteReport(
+'${report.id}'
+)">
+
+HAPUS
+
+</button>
+
+</div>
+
+`
+
+).join("");
+
+}
+
+
+function escapeHtml(text) {
+
+const element =
+
+document
+.createElement(
+"div"
+);
+
+
+element
+.textContent =
+text;
+
+
+return
+element
+.innerHTML;
+
+}
+
+
+async function changeStatus(
+
+id,
+
+status
+
+) {
+
+await fetch(
+
+"/api/admin/reports/" +
+
+id,
+
+{
+
+method:
+"PATCH",
+
+headers:
+
+{
+
+"Content-Type":
+"application/json",
+
+Authorization:
+
+"Bearer " +
+
+token
+
+},
+
+body:
+
+JSON.stringify(
+
+{
+
+status
+
+}
+
+)
+
+}
+
+);
+
+
+loadReports();
+
+}
+
+
+async function deleteReport(id) {
+
+const confirmDelete =
+
+confirm(
+
+"Hapus laporan ini?"
+
+);
+
+
+if (
+
+!confirmDelete
+
+) {
+
+return;
+
+}
+
+
+await fetch(
+
+"/api/admin/reports/" +
+
+id,
+
+{
+
+method:
+"DELETE",
+
+headers:
+
+{
+
+Authorization:
+
+"Bearer " +
+
+token
+
+}
+
+}
+
+);
+
+
+loadReports();
+
+}
+
+
+async function logout() {
+
+await fetch(
+
+"/api/admin/logout",
+
+{
+
+method:
+"POST",
+
+headers:
+
+{
+
+Authorization:
+
+"Bearer " +
+
+token
+
+}
+
+}
+
+);
+
+
+localStorage
+.removeItem(
+
+"maserwin_admin_token"
+
+);
+
+
+token =
+null;
+
+
+location.reload();
+
+}
+
+</script>
+
+</body>
+
+</html>
