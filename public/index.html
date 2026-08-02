@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>
+PAYMENT MASERWIN
+</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    min-height: 100vh;
+
+    color: white;
+
+    font-family:
+    Arial,
+    sans-serif;
+
+    background:
+
+    radial-gradient(
+    circle at top left,
+    #123d7a,
+    transparent 40%
+    ),
+
+    radial-gradient(
+    circle at bottom right,
+    #482b86,
+    transparent 40%
+    ),
+
+    #050914;
+}
+
+.navbar {
+
+    width:
+    min(
+    1100px,
+    calc(
+    100% - 30px
+    )
+    );
+
+    margin:
+    18px auto;
+
+    padding:
+    12px 15px;
+
+    display:
+    flex;
+
+    justify-content:
+    space-between;
+
+    align-items:
+    center;
+
+    border:
+    1px solid
+    #ffffff18;
+
+    border-radius:
+    18px;
+
+    background:
+    #0c1729cc;
+
+    backdrop-filter:
+    blur(15px);
+}
+
+.brand {
+
+    display:
+    flex;
+
+    align-items:
+    center;
+
+    gap:
+    10px;
+
+    font-weight:
+    800;
+}
+
+.logo {
+
+    width:
+    40px;
+
+    height:
+    40px;
+
+    border-radius:
+    12px;
+
+    object-fit:
+    cover;
+}
+
+.menu-button {
+
+    width:
+    43px;
+
+    height:
+    43px;
+
+    border:
+    1px solid
+    #ffffff18;
+
+    border-radius:
+    13px;
+
+    color:
+    white;
+
+    cursor:
+    pointer;
+
+    background:
+    #ffffff0d;
+}
+
+.menu {
+
+    position:
+    absolute;
+
+    right:
+    20px;
+
+    top:
+    72px;
+
+    width:
+    235px;
+
+    display:
+    none;
+
+    padding:
+    9px;
+
+    z-index:
+    50;
+
+    border:
+    1px solid
+    #ffffff18;
+
+    border-radius:
+    18px;
+
+    background:
+    #091426;
+
+    box-shadow:
+    0 20px 60px
+    #00000088;
+}
+
+.menu.active {
+
+    display:
+    block;
+}
+
+.menu button {
+
+    width:
+    100%;
+
+    padding:
+    13px;
+
+    margin:
+    3px 0;
+
+    border:
+    0;
+
+    border-radius:
+    12px;
+
+    color:
+    white;
+
+    text-align:
+    left;
+
+    cursor:
+    pointer;
+
+    background:
+    transparent;
+}
+
+.menu button:hover {
+
+    background:
+    #ffffff0c;
+}
+
+.main {
+
+    width:
+    min(
+    1100px,
+    calc(
+    100% - 30px
+    )
+    );
+
+    margin:
+    55px auto;
+}
+
+.heading {
+
+    text-align:
+    center;
+
+    margin-bottom:
+    30px;
+}
+
+.heading small {
+
+    color:
+    #64caff;
+
+    font-weight:
+    800;
+
+    letter-spacing:
+    2px;
+}
+
+.heading h1 {
+
+    font-size:
+    clamp(
+    30px,
+    6vw,
+    50px
+    );
+}
+
+.gradient {
+
+    background:
+    linear-gradient(
+    90deg,
+    white,
+    #60cbff,
+    #a58cff
+    );
+
+    -webkit-background-clip:
+    text;
+
+    color:
+    transparent;
+}
+
+.methods {
+
+    display:
+    grid;
+
+    grid-template-columns:
+    repeat(
+    3,
+    1fr
+    );
+
+    gap:
+    18px;
+}
+
+.card {
+
+    padding:
+    20px;
+
+    border:
+    1px solid
+    #ffffff18;
+
+    border-radius:
+    24px;
+
+    cursor:
+    pointer;
+
+    background:
+    #ffffff09;
+
+    transition:
+    .25s;
+}
+
+.card:hover {
+
+    transform:
+    translateY(
+    -5px
+    );
+
+    border-color:
+    #1d9cff;
+}
+
+.card img {
+
+    width:
+    100%;
+
+    height:
+    170px;
+
+    object-fit:
+    cover;
+
+    border-radius:
+    17px;
+}
+
+.card h2 {
+
+    margin:
+    18px 0 5px;
+}
+
+.card p {
+
+    color:
+    #92a0b5;
+
+    font-size:
+    13px;
+}
+
+.report-modal {
+
+    position:
+    fixed;
+
+    inset:
+    0;
+
+    display:
+    none;
+
+    place-items:
+    center;
+
+    padding:
+    18px;
+
+    z-index:
+    100;
+
+    background:
+    #000000cc;
+}
+
+.report-modal.active {
+
+    display:
+    grid;
+}
+
+.report-box {
+
+    width:
+    min(
+    460px,
+    100%
+    );
+
+    padding:
+    23px;
+
+    border:
+    1px solid
+    #ffffff18;
+
+    border-radius:
+    24px;
+
+    background:
+    #091426;
+}
+
+.report-box h2 {
+
+    margin-top:
+    0;
+}
+
+.report-box input,
+
+.report-box textarea {
+
+    width:
+    100%;
+
+    margin-top:
+    12px;
+
+    padding:
+    13px;
+
+    border:
+    1px solid
+    #ffffff18;
+
+    border-radius:
+    12px;
+
+    outline:
+    none;
+
+    color:
+    white;
+
+    background:
+    #ffffff09;
+}
+
+.report-box textarea {
+
+    height:
+    130px;
+
+    resize:
+    vertical;
+}
+
+.actions {
+
+    display:
+    grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap:
+    10px;
+
+    margin-top:
+    14px;
+}
+
+.actions button {
+
+    padding:
+    13px;
+
+    border:
+    0;
+
+    border-radius:
+    12px;
+
+    color:
+    white;
+
+    cursor:
+    pointer;
+
+    background:
+    linear-gradient(
+    100deg,
+    #087dff,
+    #00b8ed
+    );
+}
+
+.actions .close {
+
+    background:
+    #ffffff0d;
+}
+
+.toast {
+
+    position:
+    fixed;
+
+    left:
+    50%;
+
+    bottom:
+    25px;
+
+    padding:
+    13px 18px;
+
+    border-radius:
+    13px;
+
+    background:
+    #0c192c;
+
+    border:
+    1px solid
+    #ffffff18;
+
+    transform:
+    translateX(
+    -50%
+    );
+
+    display:
+    none;
+}
+
+.toast.show {
+
+    display:
+    block;
+}
+
+@media(
+max-width:850px
+) {
+
+.methods {
+
+    grid-template-columns:
+    1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<nav class="navbar">
+
+<div class="brand">
+
+<img
+class="logo"
+src="https://files.catbox.moe/uhz8jf.jpg">
+
+PAYMENT MASERWIN
+
+</div>
+
+
+<button
+class="menu-button"
+onclick="toggleMenu()">
+
+☰
+
+</button>
+
+
+<div
+class="menu"
+id="menu">
+
+<button
+onclick="openReport('bug')">
+
+🐛 Laporkan Bug
+
+</button>
+
+
+<button
+onclick="openReport('feature')">
+
+💡 Request Fitur
+
+</button>
+
+
+<button
+onclick="window.open(
+'https://wa.me/6285883630287'
+)">
+
+💬 Hubungi Admin
+
+</button>
+
+</div>
+
+</nav>
+
+
+<main class="main">
+
+
+<div class="heading">
+
+<small>
+PAYMENT MASERWIN
+</small>
+
+<h1>
+
+PILIH METODE
+
+<span class="gradient">
+PEMBAYARAN
+</span>
+
+</h1>
+
+</div>
+
+
+<div class="methods">
+
+
+<div class="card">
+
+<img
+src="https://files.catbox.moe/aecrn6.jpg">
+
+<h2>
+DANA
+</h2>
+
+<p>
+Pembayaran melalui DANA
+</p>
+
+</div>
+
+
+<div class="card">
+
+<img
+src="https://files.catbox.moe/9gl0a2.jpg">
+
+<h2>
+GoPay
+</h2>
+
+<p>
+Pembayaran melalui GoPay
+</p>
+
+</div>
+
+
+<div class="card">
+
+<img
+src="https://files.catbox.moe/v1v2l6.jpg">
+
+<h2>
+QRIS
+</h2>
+
+<p>
+Scan QRIS untuk membayar
+</p>
+
+</div>
+
+</div>
+
+</main>
+
+
+<div
+class="report-modal"
+id="reportModal">
+
+<div class="report-box">
+
+<h2
+id="reportTitle">
+
+LAPORKAN BUG
+
+</h2>
+
+
+<input
+id="title"
+placeholder="Judul laporan">
+
+
+<textarea
+id="description"
+placeholder="Jelaskan laporan secara detail"></textarea>
+
+
+<div class="actions">
+
+<button
+class="close"
+onclick="closeReport()">
+
+BATAL
+
+</button>
+
+
+<button
+onclick="sendReport()">
+
+KIRIM LAPORAN
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div
+class="toast"
+id="toast">
+
+Laporan berhasil dikirim
+
+</div>
+
+
+<script>
+
+let reportType =
+"bug";
+
+
+function toggleMenu() {
+
+document
+.getElementById(
+"menu"
+)
+.classList
+.toggle(
+"active"
+);
+
+}
+
+
+function openReport(type) {
+
+reportType =
+type;
+
+
+document
+.getElementById(
+"menu"
+)
+.classList
+.remove(
+"active"
+);
+
+
+document
+.getElementById(
+"reportTitle"
+)
+.textContent =
+
+type === "bug"
+
+?
+
+"🐛 LAPORKAN BUG"
+
+:
+
+"💡 REQUEST FITUR";
+
+
+document
+.getElementById(
+"reportModal"
+)
+.classList
+.add(
+"active"
+);
+
+}
+
+
+function closeReport() {
+
+document
+.getElementById(
+"reportModal"
+)
+.classList
+.remove(
+"active"
+);
+
+}
+
+
+async function sendReport() {
+
+const title =
+
+document
+.getElementById(
+"title"
+)
+.value
+.trim();
+
+
+const description =
+
+document
+.getElementById(
+"description"
+)
+.value
+.trim();
+
+
+if (
+
+!title ||
+
+!description
+
+) {
+
+showToast(
+
+"Judul dan laporan wajib diisi"
+
+);
+
+return;
+
+}
+
+
+try {
+
+const response =
+
+await fetch(
+
+"/api/reports",
+
+{
+
+method:
+"POST",
+
+headers:
+
+{
+
+"Content-Type":
+"application/json"
+
+},
+
+body:
+
+JSON.stringify(
+
+{
+
+type:
+reportType,
+
+title,
+
+description
+
+}
+
+)
+
+}
+
+);
+
+
+const result =
+
+await response
+.json();
+
+
+if (
+
+!result.success
+
+) {
+
+throw new Error(
+
+result.message
+
+);
+
+}
+
+
+document
+.getElementById(
+"title"
+)
+.value = "";
+
+
+document
+.getElementById(
+"description"
+)
+.value = "";
+
+
+closeReport();
+
+
+showToast(
+
+"✓ Laporan berhasil dikirim"
+
+);
+
+}
+
+catch(error) {
+
+showToast(
+
+error.message ||
+
+"Gagal mengirim laporan"
+
+);
+
+}
+
+}
+
+
+function showToast(text) {
+
+const toast =
+
+document
+.getElementById(
+"toast"
+);
+
+
+toast
+.textContent =
+text;
+
+
+toast
+.classList
+.add(
+"show"
+);
+
+
+setTimeout(
+
+() => {
+
+toast
+.classList
+.remove(
+"show"
+);
+
+},
+
+2500
+
+);
+
+}
+
+</script>
+
+</body>
+
+</html>
